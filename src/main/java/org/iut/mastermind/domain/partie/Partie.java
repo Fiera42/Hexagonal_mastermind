@@ -47,7 +47,6 @@ public class Partie {
     // on a terminé la partie
     public Reponse tourDeJeu(String motPropose) {
         verifieNbEssais();
-        System.out.println("nb essai :" + nbEssais + " MAX: " + NB_ESSAIS_MAX);
         if(partieTerminee) return null;
 
         Reponse reponse = new Reponse(motADeviner);
