@@ -50,6 +50,7 @@ public class Mastermind {
     private ResultatPartie calculeResultat(Partie partie, String motPropose) {
         if(partie == null) return ResultatPartie.ERROR;
         if(!isJeuEnCours(Optional.of(partie))) return ResultatPartie.ERROR;
+
         ResultatPartie res = ResultatPartie.create(partie.tourDeJeu(motPropose), partie.isTerminee());
 
         partieRepository.update(partie);

@@ -6,73 +6,56 @@ import org.iut.mastermind.domain.proposition.Reponse;
 public class Partie {
     private static final int NB_ESSAIS_MAX = 5;
     private final Joueur joueur;
-    private final String motADeviner;
+    private final MotSecret motSecret;
     private int nbEssais;
     private boolean partieTerminee;
 
-    public Partie(Joueur joueur, String motADeviner, int nbEssais, boolean partieTerminee) {
+    public Partie(Joueur joueur, MotSecret motSecret, int nbEssais, boolean partieTerminee) {
         this.joueur = joueur;
-        this.motADeviner = motADeviner;
+        this.motSecret = motSecret;
         this.nbEssais = nbEssais;
         this.partieTerminee = partieTerminee;
     }
 
     public static Partie create(Joueur joueur, String motADeviner) {
-        return new Partie(joueur, motADeviner, 0, false);
+        return new Partie(joueur, new MotSecret(motADeviner), 0, false);
     }
 
     public static Partie create(Joueur joueur, String motADeviner, int nbEssais) {
-        return new Partie(joueur, motADeviner, nbEssais, false);
+        return new Partie(joueur, new MotSecret(motADeviner), nbEssais, false);
     }
 
-    // getter joueur
-    public Joueur getJoueur() {
-        return joueur;
-    }
-
-    // getter nombre d'essais
-    public int getNbEssais() {
-        return nbEssais;
-    }
-
-    // getter mot à deviner
-    public String getMot() {
-        return motADeviner;
-    }
-
-    // si le nombre max d'essais n'est pas atteint
-    // on compare la proposition au mot secret
-    // et on renvoie la réponse
-    // si toutes les lettres sont correctement placées,
-    // on a terminé la partie
     public Reponse tourDeJeu(String motPropose) {
-        verifieNbEssais();
-        if(partieTerminee) return null;
+        if(isTerminee()) return Reponse.ERROR;
 
-        Reponse reponse = new Reponse(motADeviner);
-        reponse.compare(motPropose);
+        Reponse reponse = motSecret.compareProposition(motPropose);
+        if(reponse.isBonneReponse()) terminerPartie();
 
-        if(reponse.lettresToutesPlacees()) done();
         nbEssais++;
-        isTerminee();
 
         return reponse;
     }
 
-    // vérifie que le nombre d'essais max n'est pas atteint
-    private void verifieNbEssais() {
-        if(nbEssais > NB_ESSAIS_MAX) done();
-    }
+    // ----------------------------- Getter
 
-    // la partie est-elle terminée
     public boolean isTerminee() {
-        verifieNbEssais();
-
+        if(nbEssais >= NB_ESSAIS_MAX) terminerPartie();
         return partieTerminee;
     }
 
-    // la partie est terminée
-    void done() {
+    public void terminerPartie() {
         partieTerminee = true;
+    }
+
+    public Joueur getJoueur() {
+        return joueur;
+    }
+
+    public int getNbEssais() {
+        return nbEssais;
+    }
+
+    public String getMotSecret() {
+        return motSecret.motSecret();
     }
 }

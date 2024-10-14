@@ -6,6 +6,8 @@ public record ResultatPartie(Reponse resultat, boolean isTermine, boolean isErro
     public static final ResultatPartie ERROR = new ResultatPartie(null, true, true);
 
     public static ResultatPartie create(Reponse resultat, boolean isTermine) {
+        if(resultat.equals(Reponse.ERROR)) return ERROR;
+
         return new ResultatPartie(resultat, isTermine, false);
     }
 }

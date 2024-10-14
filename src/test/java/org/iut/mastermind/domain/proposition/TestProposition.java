@@ -45,7 +45,7 @@ public class TestProposition {
     void casToutesLettresPlacees() {
         var mot = new MotSecret("SOLID");
         var reponse = mot.compareProposition("SOLID");
-        assertThat(reponse.lettresToutesPlacees()).isTrue();
+        assertThat(reponse.isBonneReponse()).isTrue();
     }
 
     @Test
@@ -53,7 +53,7 @@ public class TestProposition {
     void casLettresIncorrectes() {
         var mot = new MotSecret("SOLID");
         var reponse = mot.compareProposition("SOL*D");
-        assertThat(reponse.lettresToutesPlacees()).isFalse();
+        assertThat(reponse.isBonneReponse()).isFalse();
     }
 
     @Test
@@ -61,14 +61,14 @@ public class TestProposition {
     void casAccesLettres() {
         var mot = new MotSecret("SOLID");
         var reponse = mot.compareProposition("SOL*D");
-        assertThat(reponse.lettresResultat()).hasSize(5);
+        assertThat(reponse.resultat()).hasSize(5);
     }
 
 
     private void assertResultat(Reponse reponse, Lettre... resultatAttendu) {
         for (int position = 0; position < resultatAttendu.length; position++) {
             Lettre attendue = resultatAttendu[position];
-            assertThat(reponse.lettre(position)).isEqualTo(attendue);
+            assertThat(reponse.resultat().get(position)).isEqualTo(attendue);
         }
     }
 }
