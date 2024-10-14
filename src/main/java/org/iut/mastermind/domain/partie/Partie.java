@@ -3,6 +3,8 @@ package org.iut.mastermind.domain.partie;
 import org.iut.mastermind.domain.proposition.MotSecret;
 import org.iut.mastermind.domain.proposition.Reponse;
 
+import java.util.Objects;
+
 public class Partie {
     private static final int NB_ESSAIS_MAX = 5;
     private final Joueur joueur;
@@ -18,10 +20,14 @@ public class Partie {
     }
 
     public static Partie create(Joueur joueur, String motADeviner) {
+        Objects.requireNonNull(joueur);
+        Objects.requireNonNull(motADeviner);
         return new Partie(joueur, new MotSecret(motADeviner), 0, false);
     }
 
     public static Partie create(Joueur joueur, String motADeviner, int nbEssais) {
+        Objects.requireNonNull(joueur);
+        Objects.requireNonNull(motADeviner);
         return new Partie(joueur, new MotSecret(motADeviner), nbEssais, false);
     }
 

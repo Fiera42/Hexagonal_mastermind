@@ -18,6 +18,7 @@ public record Reponse(String proposition, List<Lettre> resultat, boolean isBonne
     }
 
     private static List<Lettre> compare(String motSecret, String essai) {
+        if(essai == null) return List.of();
         return IntStream.range(0, essai.length())
                 .mapToObj(i -> evalLettre(motSecret, essai.charAt(i), i))
                 .toList();
